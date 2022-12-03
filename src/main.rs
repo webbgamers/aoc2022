@@ -2,7 +2,7 @@ use std::env;
 use std::fs;
 
 // Define each day as a module here
-mod day01; mod day02;
+mod day01; mod day02; mod day03;
 
 fn main() {
     let day = match env::args().nth(1) {
@@ -28,6 +28,7 @@ fn main() {
     let (p1, p2) = match day {
         1 => day01::solve(input),
         2 => day02::solve(input),
+        3 => day03::solve(input),
 
         _ => (None, None)
     };
