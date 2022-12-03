@@ -1,11 +1,13 @@
-pub fn solve(input: String) -> (Option<isize>, Option<isize>) {
-	(part1(&input), part2(&input))
+use std::fmt::Display;
+
+pub fn solve(input: String) -> (String, String) {
+	(part1(&input).to_string(), part2(&input).to_string())
 }
 
-fn part1(input: &str) -> Option<isize> {
-	None
+fn part1(input: &str) -> impl Display {
+	"Not implemented yet"
 }
 
-fn part2(input: &str) -> Option<isize> {
-	None
+fn part2(input: &str) -> impl Display {
+	"Not implemented yet"
 }

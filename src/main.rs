@@ -41,25 +41,13 @@ fn main() {
         2 => day02::solve(input),
         3 => day03::solve(input),
 
-        _ => (None, None),
+        _ => (String::from("Not implemented yet"), String::from("Not implemented yet")),
     };
 
     println!("\nDay {} Part 1:", day);
-    println!(
-        "{}\n",
-        match p1 {
-            None => String::from("Not implemented yet"),
-            Some(s) => s.to_string(),
-        }
-    );
+    println!("{}\n", p1);
     println!("Day {} Part 2:", day);
-    println!(
-        "{}\n",
-        match p2 {
-            None => String::from("Not implemented yet"),
-            Some(s) => s.to_string(),
-        }
-    );
+    println!("{}\n", p2);
 }
 
 pub fn get_input(day: &usize) -> Option<String> {

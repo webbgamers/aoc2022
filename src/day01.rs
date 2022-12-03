@@ -1,8 +1,10 @@
-pub fn solve(input: String) -> (Option<isize>, Option<isize>) {
-    (part1(&input), part2(&input))
+use std::fmt::Display;
+
+pub fn solve(input: String) -> (String, String) {
+    (part1(&input).to_string(), part2(&input).to_string())
 }
 
-fn part1(input: &str) -> Option<isize> {
+fn part1(input: &str) -> impl Display {
     // Organize input
     let input = input.lines().collect::<Vec<_>>();
     let input = input.split(|&l| l.is_empty());
@@ -24,10 +26,10 @@ fn part1(input: &str) -> Option<isize> {
             max = i
         }
     }
-    Some(max)
+    max
 }
 
-fn part2(input: &str) -> Option<isize> {
+fn part2(input: &str) -> impl Display {
     // Organize input
     let input = input.lines().collect::<Vec<_>>();
     let input = input.split(|&l| l.is_empty());
@@ -44,5 +46,5 @@ fn part2(input: &str) -> Option<isize> {
 
     // Sort and add top 3 numbers
     totals.sort_unstable();
-    Some(totals[totals.len() - 1] + totals[totals.len() - 2] + totals[totals.len() - 3])
+    totals[totals.len() - 1] + totals[totals.len() - 2] + totals[totals.len() - 3]
 }

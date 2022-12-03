@@ -1,10 +1,10 @@
-use std::collections::HashSet;
+use std::{collections::HashSet, fmt::Display};
 
-pub fn solve(input: String) -> (Option<isize>, Option<isize>) {
-    (part1(&input), part2(&input))
+pub fn solve(input: String) -> (String, String) {
+    (part1(&input).to_string(), part2(&input).to_string())
 }
 
-fn part1(input: &str) -> Option<isize> {
+fn part1(input: &str) -> impl Display {
     let input = input.lines().map(|l| {
         let mut first = HashSet::new();
         let mut second = HashSet::new();
@@ -33,10 +33,10 @@ fn part1(input: &str) -> Option<isize> {
             + 1;
     }
 
-    Some(total as isize)
+    total
 }
 
-fn part2(input: &str) -> Option<isize> {
+fn part2(input: &str) -> impl Display {
     let mut input = input.lines().map(|l| l.chars().collect::<HashSet<_>>());
 
     let mut results = Vec::new();
@@ -60,5 +60,5 @@ fn part2(input: &str) -> Option<isize> {
             + 1;
     }
 
-    Some(total as isize)
+    total
 }

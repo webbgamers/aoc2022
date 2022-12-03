@@ -1,8 +1,10 @@
-pub fn solve(input: String) -> (Option<isize>, Option<isize>) {
-    (part1(&input), part2(&input))
+use std::fmt::Display;
+
+pub fn solve(input: String) -> (String, String) {
+    (part1(&input).to_string(), part2(&input).to_string())
 }
 
-fn part1(input: &str) -> Option<isize> {
+fn part1(input: &str) -> impl Display {
     // Organize input
     let input = input.lines().map(|l| {
         let mut l = l.split_whitespace();
@@ -35,10 +37,10 @@ fn part1(input: &str) -> Option<isize> {
         }
     }
 
-    Some(score)
+    score
 }
 
-fn part2(input: &str) -> Option<isize> {
+fn part2(input: &str) -> impl Display {
     // Organize input
     let input = input.lines().map(|l| {
         let mut l = l.split_whitespace();
@@ -71,5 +73,5 @@ fn part2(input: &str) -> Option<isize> {
         }
     }
 
-    Some(score)
+    score
 }
