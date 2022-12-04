@@ -1,22 +1,21 @@
-use std::env;
-use std::fs;
 use chrono::prelude::*;
 use chrono_tz::EST;
+use std::env;
+use std::fs;
 
 // Define each day as a module here
 mod day01;
 mod day02;
 mod day03;
+mod day04;
 
 fn main() {
     let day = match env::args().nth(1) {
-        Some(day) => {
-            match day.parse::<u32>() {
-                Ok(day) => day,
-                Err(_) => {
-                    println!("Enter a vaild day.");
-                    return;
-                }
+        Some(day) => match day.parse::<u32>() {
+            Ok(day) => day,
+            Err(_) => {
+                println!("Enter a vaild day.");
+                return;
             }
         },
         None => {
@@ -29,7 +28,7 @@ fn main() {
             }
         }
     };
-    
+
     if day > 25 {
         println!("Enter a day between 1 and 25.");
         return;
@@ -48,8 +47,12 @@ fn main() {
         1 => day01::solve(input),
         2 => day02::solve(input),
         3 => day03::solve(input),
+        4 => day04::solve(input),
 
-        _ => (String::from("Not implemented yet"), String::from("Not implemented yet")),
+        _ => (
+            String::from("Not implemented yet"),
+            String::from("Not implemented yet"),
+        ),
     };
 
     println!("\nDay {} Part 1:", day);
