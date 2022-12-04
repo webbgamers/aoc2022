@@ -1,5 +1,7 @@
 use std::env;
 use std::fs;
+use chrono::prelude::*;
+use chrono_tz::EST;
 
 // Define each day as a module here
 mod day01;
@@ -8,20 +10,26 @@ mod day03;
 
 fn main() {
     let day = match env::args().nth(1) {
-        Some(day) => day,
+        Some(day) => {
+            match day.parse::<u32>() {
+                Ok(day) => day,
+                Err(_) => {
+                    println!("Enter a vaild day.");
+                    return;
+                }
+            }
+        },
         None => {
-            println!("You must specify a day.");
-            return;
+            let time = Utc::now().with_timezone(&EST);
+            if time.month() == 12 && time.day() <= 25 {
+                time.day()
+            } else {
+                println!("You must specify a day.");
+                return;
+            }
         }
     };
-    let day = match day.parse::<usize>() {
-        Ok(day) => day,
-        Err(_) => {
-            println!("Enter a vaild day.");
-            return;
-        }
-    };
-
+    
     if day > 25 {
         println!("Enter a day between 1 and 25.");
         return;
@@ -50,7 +58,7 @@ fn main() {
     println!("{}\n", p2);
 }
 
-pub fn get_input(day: &usize) -> Option<String> {
+pub fn get_input(day: &u32) -> Option<String> {
     let fp = format!("input/day{:02}.txt", day);
     match fs::read_to_string(&fp) {
         Ok(input) => Some(input),
