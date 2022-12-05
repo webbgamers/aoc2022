@@ -1,7 +1,11 @@
 use chrono::prelude::*;
 use chrono_tz::EST;
+use reqwest::blocking::Client;
+use reqwest::header::COOKIE;
+use reqwest::StatusCode;
 use std::env;
 use std::fs;
+use std::io::ErrorKind;
 
 // Define each day as a module here
 mod day01;
@@ -66,8 +70,59 @@ pub fn get_input(day: &u32) -> Option<String> {
     match fs::read_to_string(&fp) {
         Ok(input) => Some(input),
         Err(error) => {
-            println!("Failed to load input file '{}': {}", &fp, error);
-            None
+            if let ErrorKind::NotFound = error.kind() {
+                println!("Input file not found, attempting to download.");
+                let token = if let Some(token) = get_aoc_token() {
+                    token
+                } else {
+                    println!("Save your AOC session token to './aoc_token' or to the AOC_TOKEN environment variable.");
+                    return None;
+                };
+                let c = Client::new();
+                match c
+                    .get(format!("https://adventofcode.com/2022/day/{}/input", day))
+                    .header(COOKIE, format!("session={}", token))
+                    .send()
+                {
+                    Ok(res) => match res.status() {
+                        StatusCode::OK => match res.text() {
+                            Ok(text) => {
+                                let fp = format!("./input/day{:02}.txt", day);
+                                if let Err(err) = fs::write(&fp, &text) {
+                                    println!("Couldn't save input to '{}': {}", fp, err);
+                                } else {
+                                    println!("Saved input to {}", fp);
+                                    return Some(text);
+                                }
+                            }
+                            Err(err) => println!("Failed to parse response: {}", err),
+                        },
+                        StatusCode::NOT_FOUND => {
+                            println!("Input for day {} not found, might be too early.", day)
+                        }
+                        code => println!("Unexpected response: {}", code),
+                    },
+                    Err(err) => {
+                        println!("Failed to download input: {}", err);
+                    }
+                }
+
+                None
+            } else {
+                println!("Failed to load input file '{}': {}", &fp, error);
+                None
+            }
         }
+    }
+}
+
+pub fn get_aoc_token() -> Option<String> {
+    if let Ok(token) = fs::read_to_string("./aoc_token") {
+        Some(token)
+    } else if let Some((_, v)) = env::vars().find(|(k, _)| k == "AOC_TOKEN") {
+        Some(v)
+    } else {
+        println!("Could not find AOC session token.");
+        None
     }
 }
