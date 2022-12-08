@@ -18,7 +18,7 @@ fn part1(input: &str) -> impl Display {
             let c = x.to_digit(10).unwrap() as i32;
             if c > highest {
                 highest = c;
-                if let None = seen.insert((j, i), true) {
+                if seen.insert((j, i), true).is_none() {
                     visible += 1;
                 }
             }
@@ -30,7 +30,7 @@ fn part1(input: &str) -> impl Display {
             let c = x.to_digit(10).unwrap() as i32;
             if c > highest {
                 highest = c;
-                if let None = seen.insert((j, i), true) {
+                if seen.insert((j, i), true).is_none() {
                     visible += 1;
                 }
             }
@@ -44,7 +44,7 @@ fn part1(input: &str) -> impl Display {
             let c = c.to_digit(10).unwrap() as i32;
             if c > highests[x] {
                 highests[x] = c;
-                if let None = seen.insert((x, i), true) {
+                if seen.insert((x, i), true).is_none() {
                     visible += 1;
                 }
             }
@@ -58,7 +58,7 @@ fn part1(input: &str) -> impl Display {
             let c = c.to_digit(10).unwrap() as i32;
             if c > highests[x] {
                 highests[x] = c;
-                if let None = seen.insert((x, i), true) {
+                if seen.insert((x, i), true).is_none() {
                     visible += 1;
                 }
             }
@@ -100,7 +100,7 @@ fn part2(input: &str) -> impl Display {
 
             // look right
             let mut r_view = 0;
-            for x in (start_x + 1..input[0].len()) {
+            for x in start_x + 1..input[0].len() {
                 r_view += 1;
                 if input[start_y][x] >= h {
                     break;
@@ -118,7 +118,8 @@ fn part2(input: &str) -> impl Display {
 
             // look down
             let mut d_view = 0;
-            for y in (start_y + 1..input[0].len()) {
+            #[allow(clippy::needless_range_loop)]
+            for y in start_y + 1..input[0].len() {
                 d_view += 1;
                 if input[y][start_x] >= h {
                     break;
