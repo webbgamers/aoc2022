@@ -17,7 +17,7 @@ mod day06;
 mod day07;
 mod day08;
 mod day09;
-//mod day10;
+mod day10;
 //mod day11;
 //mod day12;
 //mod day13;
@@ -78,7 +78,7 @@ fn main() {
         7 => day07::solve(input),
         8 => day08::solve(input),
         9 => day09::solve(input),
-        //10 => day10::solve(input),
+        10 => day10::solve(input),
         //11 => day11::solve(input),
         //12 => day12::solve(input),
         //13 => day13::solve(input),
